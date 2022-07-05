@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:rx_notifier/rx_notifier.dart';
+import 'package:gerenciaestado/provider/controller/inc_controller.dart';
+import 'package:provider/provider.dart';
 
-import 'rx/app_store.dart';
+import 'home_page.dart';
 
-
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(const MyApp());
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -15,55 +13,9 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  final appStore = AppStore();
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(widget.title),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            RxBuilder(builder: (_) {
-              return Text(
-                appStore.counter.value.toString(),
-                style: Theme.of(context).textTheme.headline4,
-              );
-            }),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          appStore.increment();
-        },
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ),
+      theme: ThemeData(primarySwatch: Colors.blue),
+      home: ChangeNotifierProvider(
+          create: (_) => IncController(), child: const HomePage()),
     );
   }
 }
